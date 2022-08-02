@@ -6,7 +6,11 @@ import subprocess
 import sys
 import shutil
 import glob
-from Cython.Build import cythonize
+try:
+    from Cython.Build import cythonize
+except ImportError:
+    def cythonize(*args, **kwargs):
+        return []
 
 #os.environ['CXX'] = 'g++'
 #os.environ['ARCHFLAGS'] ="-arch x86_64"
@@ -234,12 +238,12 @@ setup(
     author="Mark Reid",
     author_email="mindmark@gmail.com",
 
-    url="https://github.com/markreidvfx/pyaaf",
+    url="https://github.com/hughetop/pyaaf.git",
     license='MIT',
     packages=['aaf'],
     ext_modules=ext_modules,
     cmdclass = {'build_ext':build_pyaaf_ext,
                 'clean':clean},
-    package_data=package_data
-
+    package_data=package_data,
+    setup_requires=['Cython'],
 )
